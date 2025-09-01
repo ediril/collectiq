@@ -43,6 +43,13 @@ $ git submodule add https://github.com/ediril/collectiq.git
 
 Make sure `/component/collectiq/endpoint.php` is accessible from your web root.
 
+### 4. How to Update
+```
+$ git submodule update --remote
+```
+
+
+
 ## Advanced Usage
 
 ### Custom Form Options
