@@ -1,0 +1,6 @@
+vendor/
+
+.DS_Store
+*.db*
+*.log
+ftp_config.yaml
