@@ -26,6 +26,7 @@ $ git submodule add https://github.com/ediril/collectiq.git
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Put this before the app CSS in case you need to override its values -->
     <link rel="stylesheet" href="/collectiq/component/assets/waitlist.css">
 </head>
 <body>
