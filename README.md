@@ -22,11 +22,11 @@ $ git submodule add https://github.com/ediril/collectiq.git
 ### 2. Basic Integration
 
 ```php
-<?php require_once 'component/collectiq/WaitlistComponent.php'; ?>
+<?php require_once 'collectiq/component/WaitlistComponent.php'; ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="/component/collectiq/assets/waitlist.css">
+    <link rel="stylesheet" href="/collectiq/component/assets/waitlist.css">
 </head>
 <body>
     <?php 
@@ -34,14 +34,14 @@ $ git submodule add https://github.com/ediril/collectiq.git
     echo $waitlist->renderForm(); 
     ?>
     
-    <script src="/component/collectiq/assets/waitlist.js"></script>
+    <script src="/collectiq/component/assets/waitlist.js"></script>
 </body>
 </html>
 ```
 
 ### 3. Ensure Endpoint is Accessible
 
-Make sure `/component/collectiq/endpoint.php` is accessible from your web root.
+Make sure `/collectiq/component/endpoint.php` is accessible from your web root.
 
 ### 4. How to Update
 ```
@@ -86,8 +86,8 @@ $waitlist = new WaitlistComponent(
 
 <script>
 // Initialize custom handlers
-new WaitlistHandler('newsletter', '/component/collectiq/endpoint.php');
-new WaitlistHandler('beta-signup', '/component/collectiq/endpoint.php');
+new WaitlistHandler('newsletter', '/collectiq/component/endpoint.php');
+new WaitlistHandler('beta-signup', '/collectiq/component/endpoint.php');
 </script>
 ```
 
@@ -96,7 +96,7 @@ new WaitlistHandler('beta-signup', '/component/collectiq/endpoint.php');
 Use the component as a pure API:
 
 ```javascript
-fetch('/component/collectiq/endpoint.php', {
+fetch('/collectiq/component/endpoint.php', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email: 'user@example.com' })
