@@ -48,8 +48,6 @@ Make sure `/collectiq/component/endpoint.php` is accessible from your web root.
 $ git submodule update --remote
 ```
 
-
-
 ## Advanced Usage
 
 ### Custom Form Options
