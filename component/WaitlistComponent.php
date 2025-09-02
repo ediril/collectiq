@@ -4,11 +4,13 @@ class WaitlistComponent {
     private $dbPath;
     private $rateLimitDbPath;
     private $window;
+    private $assetBasePath;
     
-    public function __construct($dbPath = null, $rateLimitDbPath = null, $window = 60) {
+    public function __construct($dbPath = null, $rateLimitDbPath = null, $window = 60, $assetBasePath = null) {
         $this->dbPath = $dbPath ?: __DIR__ . '/data/waitlist.db';
         $this->rateLimitDbPath = $rateLimitDbPath ?: __DIR__ . '/data/rate_limit.db';
         $this->window = $window;
+        $this->assetBasePath = $assetBasePath ?: $this->detectAssetBasePath();
         
         // Ensure data directory exists
         if (!file_exists(__DIR__ . '/data')) {
@@ -160,7 +162,7 @@ class WaitlistComponent {
         }
     }
     
-    public function renderForm($formId = 'waitlist-form', $placeholder = 'Enter your email to get updates', $buttonText = 'Join') {
+    public function getFormHtml($formId = 'waitlist-form', $placeholder = 'Enter your email to get updates', $buttonText = 'Join') {
         return "
         <form id=\"{$formId}\" class=\"collectiq-waitlist-form\">
             <div class=\"collectiq-input-container\">
@@ -178,6 +180,56 @@ class WaitlistComponent {
         </form>";
     }
     
+    public function renderForm($formId = 'waitlist-form', $placeholder = 'Enter your email to get updates', $buttonText = 'Join', $includeAssets = false) {
+        $html = $this->getFormHtml($formId, $placeholder, $buttonText);
+        
+        if ($includeAssets) {
+            $html = $this->renderStyles() . $html . $this->renderScripts();
+        }
+        
+        return $html;
+    }
+    
+    private function getAssetHash($file) {
+        if (!file_exists($file)) {
+            return 'missing';
+        }
+        return substr(md5_file($file), 0, 8);
+    }
+
+    private function detectAssetBasePath() {
+        // Try to auto-detect the correct asset path
+        $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+        $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+        
+        // For development servers like php -S
+        if (strpos($scriptName, '/example.php') !== false) {
+            return 'component/assets/';
+        }
+        
+        // For submodule installations
+        if (strpos($requestUri, '/collectiq/') !== false) {
+            return '/collectiq/component/assets/';
+        }
+        
+        // Default relative path
+        return 'component/assets/';
+    }
+
+    private function getAssetUrl($filename) {
+        $file = __DIR__ . '/assets/' . $filename;
+        $hash = $this->getAssetHash($file);
+        return $this->assetBasePath . "{$filename}?v={$hash}";
+    }
+
+    public function renderStyles() {
+        return '<link rel="stylesheet" href="' . $this->getAssetUrl('waitlist.css') . '">';
+    }
+
+    public function renderScripts() {
+        return '<script src="' . $this->getAssetUrl('waitlist.js') . '"></script>';
+    }
+    
     public function getCSSPath() {
         return __DIR__ . '/assets/waitlist.css';
     }
@@ -187,14 +239,9 @@ class WaitlistComponent {
     }
     
     public function includeAssets() {
-        $cssPath = '/components/waitlist/assets/waitlist.css';
-        $jsPath = '/components/waitlist/assets/waitlist.js';
-        
         return [
-            'css' => "<link rel=\"stylesheet\" href=\"{$cssPath}\">",
-            'js' => "<script src=\"{$jsPath}\"></script>"
+            'css' => $this->renderStyles(),
+            'js' => $this->renderScripts()
         ];
     }
 }
-
-?>

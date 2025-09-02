@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Waitlist Component Example</title>
-    <link rel="stylesheet" href="component/assets/waitlist.css?v=<?php echo time(); ?>">
+    <?php 
+    $waitlist = new WaitlistComponent();
+    echo $waitlist->renderStyles(); 
+    ?>
     <style>
         body { 
             background: #000; 
@@ -100,10 +103,7 @@
         
         <div class="section">
             <h2>Basic Usage</h2>
-            <?php 
-            $waitlist = new WaitlistComponent();
-            echo $waitlist->renderForm(); 
-            ?>
+            <?php echo $waitlist->renderForm(); ?>
         </div>
         
         <div class="section">
@@ -119,7 +119,7 @@
         </div>
     </div>
     
-    <script src="component/assets/waitlist.js"></script>
+    <?php echo $waitlist->renderScripts(); ?>
     <script>
         // Initialize custom forms
         new WaitlistHandler('newsletter-signup');
