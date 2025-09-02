@@ -214,19 +214,88 @@ CREATE TABLE rate_limit (
 
 ### Styling
 
-Edit `assets/waitlist.css` or override CSS classes:
+The component uses CSS classes prefixed with `collectiq-` to avoid conflicts with your existing styles. You can override these styles in your own CSS:
 
 ```css
-.waitlist-form {
+/* Override the main form container */
+.collectiq-waitlist-form {
+    max-width: 400px;
+    gap: 0.5rem;
     /* Your custom styles */
 }
 
-.input-container {
+/* Override the input container */
+.collectiq-input-container {
+    border: 2px solid #your-color;
+    border-radius: 10px;
     /* Custom input styling */
 }
 
-.waitlist-form button {
+/* Override the submit button */
+.collectiq-waitlist-form button {
+    background: linear-gradient(45deg, #your-color1, #your-color2);
+    border-radius: 25px;
+    font-size: 1.2rem;
     /* Custom button styling */
+}
+
+/* Override button text */
+.collectiq-waitlist-form button span {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Override input field */
+.collectiq-waitlist-form input[type="email"] {
+    font-size: 1.1rem;
+    color: #your-text-color;
+    /* Custom input field styling */
+}
+
+/* Override success message */
+.collectiq-input-container.collectiq-thank-you {
+    background-color: #your-success-color;
+    color: #your-success-text-color;
+    /* Custom success message styling */
+}
+```
+
+#### Key CSS Classes Available for Override:
+
+- `.collectiq-waitlist-form` - Main form container
+- `.collectiq-input-container` - Input wrapper with border effects
+- `.collectiq-waitlist-form input` - Email input field
+- `.collectiq-waitlist-form button` - Submit button
+- `.collectiq-shimmer-container` - Button shimmer effect container
+- `.collectiq-shimmer` - Animated shimmer effect
+- `.collectiq-highlight` - Button highlight effect
+- `.collectiq-backdrop` - Button backdrop
+- `.collectiq-thank-you` - Success message styling
+
+#### Example: Custom Button Colors
+
+```css
+.collectiq-waitlist-form button {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+}
+
+.collectiq-waitlist-form button:hover .collectiq-highlight {
+    box-shadow: inset 0 -6px 10px rgba(255, 255, 255, 0.4);
+}
+```
+
+#### Example: Different Input Styling
+
+```css
+.collectiq-input-container {
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.collectiq-waitlist-form input {
+    padding: 1.2rem;
+    font-size: 1.1rem;
 }
 ```
 
