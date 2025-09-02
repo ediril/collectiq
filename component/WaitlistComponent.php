@@ -6,16 +6,21 @@ class WaitlistComponent {
     private $window;
     private $assetBasePath;
     
-    public function __construct($folderName = 'collectiq', $window = 60) {
+    public function __construct($folderName = 'collectiq') {
         $this->dbPath = __DIR__ . '/data/waitlist.db';
         $this->rateLimitDbPath = __DIR__ . '/data/rate_limit.db';
-        $this->window = $window;
+        $this->window = 60; // Default rate limit window
         $this->assetBasePath = $this->buildAssetPath($folderName);
         
         // Ensure data directory exists
         if (!file_exists(__DIR__ . '/data')) {
             mkdir(__DIR__ . '/data', 0755, true);
         }
+    }
+    
+    public function setRateLimitWindow($seconds) {
+        $this->window = $seconds;
+        return $this;
     }
     
     public function createDatabaseTables() {
@@ -198,6 +203,9 @@ class WaitlistComponent {
     }
 
     private function buildAssetPath($folderName) {
+        if ($folderName === null) {
+            $folderName = 'collectiq';
+        }
         return $folderName . '/component/assets/';
     }
 
