@@ -100,7 +100,7 @@ class WaitlistHandler {
         
         // Create and show thank you message
         const message = document.createElement('p');
-        message.className = 'input-container thank-you';
+        message.className = 'collectiq-input-container collectiq-thank-you';
         message.innerHTML = '<strong>Thank you for signing up!</strong>';
         
         let messageContainer = document.getElementById('message-container');

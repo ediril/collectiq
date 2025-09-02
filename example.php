@@ -1,11 +1,11 @@
-<?php require_once 'WaitlistComponent.php'; ?>
+<?php require_once 'component/WaitlistComponent.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Waitlist Component Example</title>
-    <link rel="stylesheet" href="assets/waitlist.css">
+    <link rel="stylesheet" href="component/assets/waitlist.css">
     <style>
         body { 
             background: #000; 
@@ -53,7 +53,7 @@
         </div>
     </div>
     
-    <script src="assets/waitlist.js"></script>
+    <script src="component/assets/waitlist.js"></script>
     <script>
         // Initialize custom forms
         new WaitlistHandler('newsletter-signup');

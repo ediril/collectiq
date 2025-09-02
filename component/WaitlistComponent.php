@@ -160,20 +160,20 @@ class WaitlistComponent {
         }
     }
     
-    public function renderForm($formId = 'waitlist-form', $placeholder = 'Enter your email to get updates', $buttonText = 'Join Waitlist') {
+    public function renderForm($formId = 'waitlist-form', $placeholder = 'Enter your email to get updates', $buttonText = 'Join') {
         return "
-        <form id=\"{$formId}\" class=\"waitlist-form\">
-            <div class=\"input-container\">
+        <form id=\"{$formId}\" class=\"collectiq-waitlist-form\">
+            <div class=\"collectiq-input-container\">
                 <input type=\"email\" placeholder=\"{$placeholder}\">
             </div>
             <input type=\"text\" name=\"your_name\" style=\"display:none;\">
             <button type=\"submit\">
-                <div class=\"shimmer-container\">
-                    <div class=\"shimmer\"></div>
+                <div class=\"collectiq-shimmer-container\">
+                    <div class=\"collectiq-shimmer\"></div>
                 </div>
                 <span>{$buttonText}</span>
-                <div class=\"highlight\"></div>
-                <div class=\"backdrop\"></div>
+                <div class=\"collectiq-highlight\"></div>
+                <div class=\"collectiq-backdrop\"></div>
             </button>
         </form>";
     }
