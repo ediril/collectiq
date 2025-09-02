@@ -60,7 +60,6 @@
     min-width: 160px;
     max-width: 364px;
     padding: 1rem 2rem;
-    background: linear-gradient(135deg, #6366f1, #a855f7);
     border: none;
     border-radius: 0.5rem;
     color: #fff;
@@ -69,6 +68,11 @@
     overflow: hidden;
     transition: all 0.3s ease-in-out;
     white-space: nowrap;
+}
+
+/* Default background - only applies when no custom background is set */
+.collectiq-submit-btn.collectiq-default {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
 }
 
 .collectiq-submit-btn:disabled {
@@ -111,12 +115,22 @@
     transition: all 0.3s ease-in-out;
 }
 
-.collectiq-submit-btn:hover .collectiq-highlight {
+/* Default highlight effects - only apply to default styled buttons */
+.collectiq-submit-btn.collectiq-default:hover .collectiq-highlight {
     box-shadow: inset 0 -6px 10px rgba(255, 255, 255, 0.25);
 }
 
-.collectiq-submit-btn:active .collectiq-highlight {
+.collectiq-submit-btn.collectiq-default:active .collectiq-highlight {
     box-shadow: inset 0 -10px 10px rgba(255, 255, 255, 0.25);
+}
+
+/* These generic selectors can be easily overridden by user styles */
+.collectiq-submit-btn:hover {
+    /* Can be overridden */
+}
+
+.collectiq-submit-btn:active {
+    /* Can be overridden */
 }
 
 .collectiq-submit-btn .collectiq-backdrop {

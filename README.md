@@ -232,15 +232,27 @@ The component uses CSS classes prefixed with `collectiq-` to avoid conflicts wit
 }
 
 /* Override the submit button */
-.collectiq-waitlist-form button {
+.collectiq-submit-btn {
     background: linear-gradient(45deg, #your-color1, #your-color2);
     border-radius: 25px;
     font-size: 1.2rem;
     /* Custom button styling */
 }
 
+/* Override button hover state */
+.collectiq-submit-btn:hover {
+    background: linear-gradient(45deg, #your-hover-color1, #your-hover-color2);
+    transform: translateY(-2px);
+}
+
+/* Override button active state */
+.collectiq-submit-btn:active {
+    background: linear-gradient(45deg, #your-active-color1, #your-active-color2);
+    transform: translateY(0px);
+}
+
 /* Override button text */
-.collectiq-waitlist-form button span {
+.collectiq-submit-btn span {
     font-weight: bold;
     text-transform: uppercase;
 }
