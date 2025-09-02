@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Waitlist Component Example</title>
     <?php 
-    $waitlist = new WaitlistComponent();
+    $waitlist = new WaitlistComponent('.');
     echo $waitlist->renderStyles(); 
     ?>
     <style>
@@ -91,7 +91,7 @@
             background: rgba(0, 212, 170, 0.05);
         }
         
-        #beta-access .collectiq-waitlist-form input {
+        #beta-access .collectiq-input {
             font-size: 1.1rem;
             padding: 1.2rem;
         }
@@ -100,16 +100,16 @@
         /* Note: Default placeholder is light white (rgba(255, 255, 255, 0.4)) for dark backgrounds */
         
         /* For light backgrounds, use darker placeholders */
-        .light-background .collectiq-waitlist-form input::placeholder {
+        .light-background .collectiq-input::placeholder {
             color: rgba(0, 0, 0, 0.6);
         }
         
         /* Custom placeholder colors for each form (using container IDs) */
-        #newsletter-signup .collectiq-waitlist-form input::placeholder {
+        #newsletter-signup .collectiq-input::placeholder {
             color: rgba(26, 26, 26, 0.7); /* Darker for golden theme */
         }
         
-        #beta-access .collectiq-waitlist-form input::placeholder {
+        #beta-access .collectiq-input::placeholder {
             color: rgba(255, 255, 255, 0.8); /* Brighter for teal theme */
         }
     </style>

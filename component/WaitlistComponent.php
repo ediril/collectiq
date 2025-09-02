@@ -166,7 +166,7 @@ class WaitlistComponent {
         return "
         <form class=\"collectiq-waitlist-form\">
             <div class=\"collectiq-input-container\">
-                <input type=\"email\" placeholder=\"{$placeholder}\">
+                <input type=\"email\" class=\"collectiq-input\" placeholder=\"{$placeholder}\">
             </div>
             <input type=\"text\" name=\"your_name\" style=\"display:none;\">
             <button type=\"submit\" class=\"collectiq-submit-btn\">

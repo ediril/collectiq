@@ -41,7 +41,7 @@ class WaitlistHandler {
         
         const form = e.target;
         const submitButton = form.querySelector('button[type="submit"]');
-        const emailInput = form.querySelector('input[type="email"]');
+        const emailInput = form.querySelector('.collectiq-input');
         const nameInput = form.querySelector('input[type="text"]');
         
         // Disable submit button

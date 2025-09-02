@@ -35,7 +35,7 @@
     opacity: 0.3;
 }
 
-.collectiq-waitlist-form input {
+.collectiq-input {
     position: relative;
     width: 100%;
     padding: 1rem;
@@ -47,11 +47,11 @@
     z-index: 1;
 }
 
-.collectiq-waitlist-form input:focus {
+.collectiq-input:focus {
     outline: none;
 }
 
-.collectiq-waitlist-form input::placeholder {
+.collectiq-input::placeholder {
     color: rgba(255, 255, 255, 0.4);
 }
 

@@ -301,16 +301,16 @@ The component uses CSS classes prefixed with `collectiq-` to avoid conflicts wit
     text-transform: uppercase;
 }
 
-/* Override input field - may need !important for some properties */
-.collectiq-waitlist-form input[type="email"] {
-    font-size: 1.1rem !important;
-    color: #your-text-color !important;
+/* Override input field */
+.collectiq-input {
+    font-size: 1.1rem;
+    color: #your-text-color;
     /* Custom input field styling */
 }
 
-/* Override placeholder text - may need !important */
-.collectiq-waitlist-form input::placeholder {
-    color: rgba(0, 0, 0, 0.6) !important; /* Dark placeholder for light backgrounds */
+/* Override placeholder text */
+.collectiq-input::placeholder {
+    color: rgba(0, 0, 0, 0.6); /* Dark placeholder for light backgrounds */
 }
 
 /* Override success message - may need !important for some properties */
@@ -325,8 +325,8 @@ The component uses CSS classes prefixed with `collectiq-` to avoid conflicts wit
 
 - `.collectiq-waitlist-form` - Main form container
 - `.collectiq-input-container` - Input wrapper with border effects
-- `.collectiq-waitlist-form input` - Email input field
-- `.collectiq-waitlist-form button` - Submit button
+- `.collectiq-input` - Email input field
+- `.collectiq-submit-btn` - Submit button
 - `.collectiq-shimmer-container` - Button shimmer effect container
 - `.collectiq-shimmer` - Animated shimmer effect
 - `.collectiq-highlight` - Button highlight effect
