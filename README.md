@@ -301,22 +301,22 @@ The component uses CSS classes prefixed with `collectiq-` to avoid conflicts wit
     text-transform: uppercase;
 }
 
-/* Override input field */
+/* Override input field - may need !important for some properties */
 .collectiq-waitlist-form input[type="email"] {
-    font-size: 1.1rem;
-    color: #your-text-color;
+    font-size: 1.1rem !important;
+    color: #your-text-color !important;
     /* Custom input field styling */
 }
 
-/* Override placeholder text */
+/* Override placeholder text - may need !important */
 .collectiq-waitlist-form input::placeholder {
-    color: rgba(0, 0, 0, 0.6); /* Dark placeholder for light backgrounds */
+    color: rgba(0, 0, 0, 0.6) !important; /* Dark placeholder for light backgrounds */
 }
 
-/* Override success message */
+/* Override success message - may need !important for some properties */
 .collectiq-input-container.collectiq-thank-you {
-    background-color: #your-success-color;
-    color: #your-success-text-color;
+    background-color: #your-success-color !important;
+    color: #your-success-text-color !important;
     /* Custom success message styling */
 }
 ```
