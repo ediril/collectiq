@@ -55,7 +55,7 @@
     color: rgba(255, 255, 255, 0.4);
 }
 
-.collectiq-waitlist-form button {
+.collectiq-submit-btn {
     position: relative;
     min-width: 160px;
     max-width: 364px;
@@ -71,16 +71,16 @@
     white-space: nowrap;
 }
 
-.collectiq-waitlist-form button:disabled {
+.collectiq-submit-btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
 
-.collectiq-waitlist-form button:active {
+.collectiq-submit-btn:active {
     transform: translateY(1px);
 }
 
-.collectiq-waitlist-form button .collectiq-shimmer-container {
+.collectiq-submit-btn .collectiq-shimmer-container {
     position: absolute;
     inset: 0;
     overflow: visible;
@@ -88,7 +88,7 @@
     filter: blur(2px);
 }
 
-.collectiq-waitlist-form button .collectiq-shimmer {
+.collectiq-submit-btn .collectiq-shimmer {
     position: absolute;
     inset: 0;
     height: 100%;
@@ -96,7 +96,7 @@
     animation: collectiq-shimmerSlide 3s ease-in-out infinite alternate;
 }
 
-.collectiq-waitlist-form button .collectiq-shimmer::before {
+.collectiq-submit-btn .collectiq-shimmer::before {
     content: '';
     position: absolute;
     inset: -100%;
@@ -104,22 +104,22 @@
     animation: collectiq-spinAround 6s infinite linear;
 }
 
-.collectiq-waitlist-form button .collectiq-highlight {
+.collectiq-submit-btn .collectiq-highlight {
     position: absolute;
     inset: 0;
     border-radius: 0.5rem;
     transition: all 0.3s ease-in-out;
 }
 
-.collectiq-waitlist-form button:hover .collectiq-highlight {
+.collectiq-submit-btn:hover .collectiq-highlight {
     box-shadow: inset 0 -6px 10px rgba(255, 255, 255, 0.25);
 }
 
-.collectiq-waitlist-form button:active .collectiq-highlight {
+.collectiq-submit-btn:active .collectiq-highlight {
     box-shadow: inset 0 -10px 10px rgba(255, 255, 255, 0.25);
 }
 
-.collectiq-waitlist-form button .collectiq-backdrop {
+.collectiq-submit-btn .collectiq-backdrop {
     position: absolute;
     inset: 0.05em;
     background-color: rgb(1, 4, 65);
@@ -159,7 +159,7 @@
         min-width: auto;
     }
     
-    .collectiq-waitlist-form button {
+    .collectiq-submit-btn {
         min-width: auto;
         max-width: none;
     }

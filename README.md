@@ -299,6 +299,14 @@ The component uses CSS classes prefixed with `collectiq-` to avoid conflicts wit
 }
 ```
 
+#### Example: Disable Button Shimmer Effect
+
+```css
+.collectiq-submit-btn .collectiq-shimmer-container {
+    display: none;
+}
+```
+
 ### JavaScript Behavior
 
 Extend the `WaitlistHandler` class:
