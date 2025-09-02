@@ -6,9 +6,9 @@ class WaitlistComponent {
     private $window;
     private $assetBasePath;
     
-    public function __construct($dbPath = null, $rateLimitDbPath = null, $window = 60, $folderName = null) {
-        $this->dbPath = $dbPath ?: __DIR__ . '/data/waitlist.db';
-        $this->rateLimitDbPath = $rateLimitDbPath ?: __DIR__ . '/data/rate_limit.db';
+    public function __construct($folderName = 'collectiq', $window = 60) {
+        $this->dbPath = __DIR__ . '/data/waitlist.db';
+        $this->rateLimitDbPath = __DIR__ . '/data/rate_limit.db';
         $this->window = $window;
         $this->assetBasePath = $this->buildAssetPath($folderName);
         
@@ -198,27 +198,7 @@ class WaitlistComponent {
     }
 
     private function buildAssetPath($folderName) {
-        if ($folderName) {
-            // User specified folder name
-            return $folderName . '/component/assets/';
-        }
-        
-        // Auto-detect based on server environment
-        $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
-        $requestUri = $_SERVER['REQUEST_URI'] ?? '';
-        
-        // For development servers like php -S
-        if (strpos($scriptName, '/example.php') !== false) {
-            return 'component/assets/';
-        }
-        
-        // For submodule installations
-        if (strpos($requestUri, '/collectiq/') !== false) {
-            return 'collectiq/component/assets/';
-        }
-        
-        // Default relative path
-        return 'component/assets/';
+        return $folderName . '/component/assets/';
     }
 
     private function getAssetUrl($filename) {
