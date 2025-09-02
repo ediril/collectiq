@@ -169,7 +169,7 @@ class WaitlistComponent {
                 <input type=\"email\" placeholder=\"{$placeholder}\">
             </div>
             <input type=\"text\" name=\"your_name\" style=\"display:none;\">
-            <button type=\"submit\" class=\"collectiq-submit-btn collectiq-default\">
+            <button type=\"submit\" class=\"collectiq-submit-btn\">
                 <div class=\"collectiq-shimmer-container\">
                     <div class=\"collectiq-shimmer\"></div>
                 </div>
