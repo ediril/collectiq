@@ -32,7 +32,7 @@
             border-radius: 8px;
         }
         
-        /* Custom styling for newsletter form */
+        /* Custom styling for newsletter form (using container ID) */
         #newsletter-signup .collectiq-submit-btn {
             background: linear-gradient(135deg, #ffd700, #ffb347);
             color: #1a1a1a;
@@ -59,7 +59,7 @@
             display: none;
         }
         
-        /* Custom styling for beta access form */
+        /* Custom styling for beta access form (using container ID) */
         #beta-access .collectiq-submit-btn {
             background: linear-gradient(135deg, #00d4aa, #00a086);
             border-radius: 8px;
@@ -95,6 +95,23 @@
             font-size: 1.1rem;
             padding: 1.2rem;
         }
+        
+        /* Placeholder text styling examples */
+        /* Note: Default placeholder is light white (rgba(255, 255, 255, 0.4)) for dark backgrounds */
+        
+        /* For light backgrounds, use darker placeholders */
+        .light-background .collectiq-waitlist-form input::placeholder {
+            color: rgba(0, 0, 0, 0.6);
+        }
+        
+        /* Custom placeholder colors for each form (using container IDs) */
+        #newsletter-signup .collectiq-waitlist-form input::placeholder {
+            color: rgba(26, 26, 26, 0.7); /* Darker for golden theme */
+        }
+        
+        #beta-access .collectiq-waitlist-form input::placeholder {
+            color: rgba(255, 255, 255, 0.8); /* Brighter for teal theme */
+        }
     </style>
 </head>
 <body>
@@ -106,24 +123,20 @@
             <?php echo $waitlist->renderForm(); ?>
         </div>
         
-        <div class="section">
+        <div class="section" id="newsletter-signup">
             <h2>Custom Newsletter Form</h2>
             <p>Golden gradient button with shimmer effect disabled</p>
-            <?php echo $waitlist->renderForm('newsletter-signup', 'Subscribe to our newsletter...', 'Subscribe Now'); ?>
+            <?php echo $waitlist->renderForm('Subscribe to our newsletter...', 'Subscribe Now'); ?>
         </div>
         
-        <div class="section">
+        <div class="section" id="beta-access">
             <h2>Beta Access Form</h2>
             <p>Teal theme with custom input styling and uppercase button text</p>
-            <?php echo $waitlist->renderForm('beta-access', 'Get early access...', 'Join Beta'); ?>
+            <?php echo $waitlist->renderForm('Get early access...', 'Join Beta'); ?>
         </div>
     </div>
     
     <?php echo $waitlist->renderScripts(); ?>
-    <script>
-        // Initialize custom forms
-        new WaitlistHandler('newsletter-signup');
-        new WaitlistHandler('beta-access');
-    </script>
+    <!-- All forms are automatically initialized by the script -->
 </body>
 </html>

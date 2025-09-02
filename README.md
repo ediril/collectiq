@@ -21,6 +21,7 @@ $ git submodule add https://github.com/ediril/collectiq.git
 
 ### 2. Basic Integration
 
+#### Option A: Manual Asset Loading (Traditional)
 ```php
 <?php require_once 'collectiq/component/WaitlistComponent.php'; ?>
 <!DOCTYPE html>
@@ -40,11 +41,55 @@ $ git submodule add https://github.com/ediril/collectiq.git
 </html>
 ```
 
+#### Option B: Automatic Asset Loading with Cache Busting (Recommended)
+```php
+<?php require_once 'collectiq/component/WaitlistComponent.php'; ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <?php 
+    $waitlist = new WaitlistComponent();
+    echo $waitlist->renderStyles(); // Auto-versioned CSS
+    ?>
+</head>
+<body>
+    <?php echo $waitlist->renderForm(); ?>
+    
+    <?php echo $waitlist->renderScripts(); // Auto-versioned JS ?>
+</body>
+</html>
+```
+
+#### Option C: All-in-One (CSS + Form + JS)
+```php
+<?php 
+require_once 'collectiq/component/WaitlistComponent.php';
+$waitlist = new WaitlistComponent();
+echo $waitlist->renderForm('waitlist-form', 'Enter your email...', 'Join', true);
+?>
+```
+
 ### 3. Ensure Endpoint is Accessible
 
 Make sure `/collectiq/component/endpoint.php` is accessible from your web root.
 
-### 4. How to Update
+### 4. Asset Management
+
+The component includes automatic cache busting to ensure browsers load updated CSS/JS files:
+
+#### New Asset Methods
+- `renderStyles()` - Outputs CSS with content-based hash (e.g., `waitlist.css?v=abc12345`)
+- `renderScripts()` - Outputs JS with content-based hash (e.g., `waitlist.js?v=def67890`)
+- Hash only changes when file content actually changes
+- Works with Apache, Nginx, and development servers
+
+#### Why Use Auto-Versioned Assets?
+- **Better caching** - Browsers cache until content actually changes
+- **No stale files** - Users always get the latest version after updates
+- **Automatic detection** - Works with different server configurations
+- **No manual versioning** - Hash updates automatically
+
+### 5. How to Update
 ```
 $ git submodule update --remote
 ```
@@ -56,11 +101,10 @@ $ git submodule update --remote
 ```php
 $waitlist = new WaitlistComponent();
 
-// Custom form with different text and ID
+// Custom form with different text
 echo $waitlist->renderForm(
-    'newsletter-signup',           // Form ID
     'Enter your email address...',  // Placeholder text
-    'Subscribe Now'                // Button text
+    'Subscribe Now'                 // Button text
 );
 ```
 
@@ -78,16 +122,16 @@ $waitlist = new WaitlistComponent(
 
 ```html
 <!-- Form 1: Newsletter -->
-<?php echo $waitlist->renderForm('newsletter', 'Newsletter signup...', 'Subscribe'); ?>
+<div id="newsletter-section">
+    <?php echo $waitlist->renderForm('Newsletter signup...', 'Subscribe'); ?>
+</div>
 
 <!-- Form 2: Beta Access -->
-<?php echo $waitlist->renderForm('beta-signup', 'Get beta access...', 'Join Beta'); ?>
+<div id="beta-section">
+    <?php echo $waitlist->renderForm('Get beta access...', 'Join Beta'); ?>
+</div>
 
-<script>
-// Initialize custom handlers
-new WaitlistHandler('newsletter', '/collectiq/component/endpoint.php');
-new WaitlistHandler('beta-signup', '/collectiq/component/endpoint.php');
-</script>
+<!-- All forms are automatically initialized -->
 ```
 
 ### Standalone Endpoint
@@ -264,6 +308,11 @@ The component uses CSS classes prefixed with `collectiq-` to avoid conflicts wit
     /* Custom input field styling */
 }
 
+/* Override placeholder text */
+.collectiq-waitlist-form input::placeholder {
+    color: rgba(0, 0, 0, 0.6); /* Dark placeholder for light backgrounds */
+}
+
 /* Override success message */
 .collectiq-input-container.collectiq-thank-you {
     background-color: #your-success-color;
@@ -316,6 +365,27 @@ The component uses CSS classes prefixed with `collectiq-` to avoid conflicts wit
 ```css
 .collectiq-submit-btn .collectiq-shimmer-container {
     display: none;
+}
+```
+
+#### Example: Placeholder Text Styling
+
+The default placeholder color is designed for dark backgrounds. For light backgrounds, you'll need to override it:
+
+```css
+/* Default (for dark backgrounds) */
+.collectiq-waitlist-form input::placeholder {
+    color: rgba(255, 255, 255, 0.4); /* Light white */
+}
+
+/* For light backgrounds */
+.collectiq-waitlist-form input::placeholder {
+    color: rgba(0, 0, 0, 0.6); /* Dark gray */
+}
+
+/* For specific forms */
+#my-form .collectiq-waitlist-form input::placeholder {
+    color: #666;
 }
 ```
 

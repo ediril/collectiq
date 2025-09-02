@@ -1,8 +1,8 @@
 // Waitlist Component JavaScript
 
 class WaitlistHandler {
-    constructor(formId = 'waitlist-form', endpoint = null) {
-        this.formId = formId;
+    constructor(formSelector = '.collectiq-waitlist-form', endpoint = null) {
+        this.formSelector = formSelector;
         this.endpoint = endpoint || this.getEndpointPath();
         this.init();
     }
@@ -20,13 +20,15 @@ class WaitlistHandler {
     }
     
     init() {
-        const form = document.getElementById(this.formId);
-        if (!form) {
-            console.warn(`Waitlist form with ID '${this.formId}' not found`);
+        const forms = document.querySelectorAll(this.formSelector);
+        if (forms.length === 0) {
+            console.warn(`Waitlist form with selector '${this.formSelector}' not found`);
             return;
         }
         
-        form.addEventListener('submit', (e) => this.handleSubmit(e));
+        forms.forEach(form => {
+            form.addEventListener('submit', (e) => this.handleSubmit(e));
+        });
     }
     
     isValidEmail(email) {
@@ -115,10 +117,10 @@ class WaitlistHandler {
     }
 }
 
-// Auto-initialize for default waitlist form
+// Auto-initialize for all waitlist forms
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize default waitlist form if it exists
-    if (document.getElementById('waitlist-form')) {
+    // Initialize all waitlist forms
+    if (document.querySelector('.collectiq-waitlist-form')) {
         new WaitlistHandler();
     }
 });

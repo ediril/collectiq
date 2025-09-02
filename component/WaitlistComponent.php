@@ -162,9 +162,9 @@ class WaitlistComponent {
         }
     }
     
-    public function getFormHtml($formId = 'waitlist-form', $placeholder = 'Enter your email to get updates', $buttonText = 'Join') {
+    public function getFormHtml($placeholder = 'Enter your email to get updates', $buttonText = 'Join') {
         return "
-        <form id=\"{$formId}\" class=\"collectiq-waitlist-form\">
+        <form class=\"collectiq-waitlist-form\">
             <div class=\"collectiq-input-container\">
                 <input type=\"email\" placeholder=\"{$placeholder}\">
             </div>
@@ -180,8 +180,8 @@ class WaitlistComponent {
         </form>";
     }
     
-    public function renderForm($formId = 'waitlist-form', $placeholder = 'Enter your email to get updates', $buttonText = 'Join', $includeAssets = false) {
-        $html = $this->getFormHtml($formId, $placeholder, $buttonText);
+    public function renderForm($placeholder = 'Enter your email to get updates', $buttonText = 'Join', $includeAssets = false) {
+        $html = $this->getFormHtml($placeholder, $buttonText);
         
         if ($includeAssets) {
             $html = $this->renderStyles() . $html . $this->renderScripts();
