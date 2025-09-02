@@ -6,11 +6,11 @@ class WaitlistComponent {
     private $window;
     private $assetBasePath;
     
-    public function __construct($dbPath = null, $rateLimitDbPath = null, $window = 60, $assetBasePath = null) {
+    public function __construct($dbPath = null, $rateLimitDbPath = null, $window = 60, $folderName = null) {
         $this->dbPath = $dbPath ?: __DIR__ . '/data/waitlist.db';
         $this->rateLimitDbPath = $rateLimitDbPath ?: __DIR__ . '/data/rate_limit.db';
         $this->window = $window;
-        $this->assetBasePath = $assetBasePath ?: $this->detectAssetBasePath();
+        $this->assetBasePath = $this->buildAssetPath($folderName);
         
         // Ensure data directory exists
         if (!file_exists(__DIR__ . '/data')) {
@@ -197,8 +197,13 @@ class WaitlistComponent {
         return substr(md5_file($file), 0, 8);
     }
 
-    private function detectAssetBasePath() {
-        // Try to auto-detect the correct asset path
+    private function buildAssetPath($folderName) {
+        if ($folderName) {
+            // User specified folder name
+            return $folderName . '/component/assets/';
+        }
+        
+        // Auto-detect based on server environment
         $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
         $requestUri = $_SERVER['REQUEST_URI'] ?? '';
         
@@ -209,7 +214,7 @@ class WaitlistComponent {
         
         // For submodule installations
         if (strpos($requestUri, '/collectiq/') !== false) {
-            return '/collectiq/component/assets/';
+            return 'collectiq/component/assets/';
         }
         
         // Default relative path
