@@ -360,10 +360,33 @@ The component uses CSS classes prefixed with `collectiq-` to avoid conflicts wit
 }
 ```
 
-#### Example: Disable Button Shimmer Effect
+#### Example: Disable Button Effects
 
 ```css
+/* Disable shimmer effect */
 .collectiq-submit-btn .collectiq-shimmer-container {
+    display: none;
+}
+
+/* Disable backdrop effect */
+.collectiq-submit-btn .collectiq-backdrop {
+    display: none;
+}
+
+/* Disable highlight effect on hover */
+.collectiq-submit-btn:hover .collectiq-highlight {
+    box-shadow: none;
+}
+
+/* Disable highlight effect on active */
+.collectiq-submit-btn:active .collectiq-highlight {
+    box-shadow: none;
+}
+
+/* Disable all button effects at once */
+.collectiq-submit-btn .collectiq-shimmer-container,
+.collectiq-submit-btn .collectiq-backdrop,
+.collectiq-submit-btn .collectiq-highlight {
     display: none;
 }
 ```
