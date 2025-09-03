@@ -17,6 +17,7 @@ A complete, self-contained waitlist component with email collection, rate limiti
 ### 1. Add the component to your project as a git submodule:
 ```
 $ git submodule add https://github.com/ediril/collectiq.git
+$ git submodule add https://github.com/ediril/collectiq.git <custom folder>
 ```
 
 ### 2. Basic Integration
