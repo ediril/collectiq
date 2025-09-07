@@ -1,5 +1,9 @@
 A complete, self-contained waitlist component with email collection, rate limiting, spam protection, and database management.
 
+This package contains two separate components:
+- **WaitlistComponent** - Complete email collection form with built-in rate limiting
+- **RateLimitComponent** - Standalone rate limiting that can be used independently
+
 ## Features
 
 - ✅ **Email Validation** - Client and server-side validation
@@ -20,16 +24,20 @@ $ git submodule add https://github.com/ediril/collectiq.git
 $ git submodule add https://github.com/ediril/collectiq.git <custom folder>
 ```
 
-### 2. Basic Integration
+### 2. Choose Your Component
+
+#### Waitlist Component (Complete email collection with rate limiting)
+
+Basic Integration:
 
 #### Option A: Manual Asset Loading (Traditional)
 ```php
-<?php require_once 'collectiq/component/WaitlistComponent.php'; ?>
+<?php require_once 'collectiq/components/waitlist/WaitlistComponent.php'; ?>
 <!DOCTYPE html>
 <html>
 <head>
     <!-- Put this before the app CSS in case you need to override its values -->
-    <link rel="stylesheet" href="/collectiq/component/assets/waitlist.css">
+    <link rel="stylesheet" href="/collectiq/components/waitlist/assets/waitlist.css">
 </head>
 <body>
     <?php 
@@ -37,14 +45,14 @@ $ git submodule add https://github.com/ediril/collectiq.git <custom folder>
     echo $waitlist->renderForm(); 
     ?>
     
-    <script src="/collectiq/component/assets/waitlist.js"></script>
+    <script src="/collectiq/components/waitlist/assets/waitlist.js"></script>
 </body>
 </html>
 ```
 
 #### Option B: Automatic Asset Loading with Cache Busting (Recommended)
 ```php
-<?php require_once 'collectiq/component/WaitlistComponent.php'; ?>
+<?php require_once 'collectiq/components/waitlist/WaitlistComponent.php'; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,7 +80,7 @@ echo $waitlist->renderForm('waitlist-form', 'Enter your email...', 'Join', true)
 
 ### 3. Ensure Endpoint is Accessible
 
-Make sure `/collectiq/component/endpoint.php` is accessible from your web root.
+Make sure `/collectiq/components/waitlist/endpoint.php` is accessible from your web root.
 
 ### 4. Asset Management
 
@@ -140,7 +148,7 @@ $waitlist = new WaitlistComponent(
 Use the component as a pure API:
 
 ```javascript
-fetch('/collectiq/component/endpoint.php', {
+fetch('/collectiq/components/waitlist/endpoint.php', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email: 'user@example.com' })
@@ -148,6 +156,60 @@ fetch('/collectiq/component/endpoint.php', {
 .then(response => response.json())
 .then(data => console.log(data));
 ```
+
+### RateLimit Component (Standalone)
+
+Use the rate limiting functionality independently:
+
+```php
+<?php
+require_once 'collectiq/components/ratelimit/RateLimitComponent.php';
+
+// Initialize with custom settings
+$rateLimit = new RateLimitComponent('/path/to/rate_limit.db', 60); // 60 second window
+
+// Check if request is allowed
+if ($rateLimit->checkRateLimit()) {
+    // Process the request
+    echo "Request allowed";
+} else {
+    // Rate limit exceeded
+    http_response_code(429);
+    echo "Too many requests";
+}
+```
+
+#### RateLimit Component Methods
+
+```php
+$rateLimit = new RateLimitComponent($dbPath, $window);
+
+// Set rate limit window
+$rateLimit->setWindow(120); // 2 minutes
+
+// Get current window setting
+$window = $rateLimit->getWindow();
+
+// Check rate limit for current IP
+$allowed = $rateLimit->checkRateLimit();
+
+// Check rate limit for specific IP
+$allowed = $rateLimit->checkRateLimit('192.168.1.100');
+
+// Get remaining time until next request allowed
+$seconds = $rateLimit->getRemainingTime();
+
+// Create database table (automatic, but can be called manually)
+$rateLimit->createDatabaseTable();
+```
+
+#### RateLimit Component Features
+- **IP-based limiting** - Tracks requests per IP address
+- **Configurable windows** - Set custom time windows (seconds)
+- **Automatic cleanup** - Removes expired entries
+- **Proxy support** - Handles X-Forwarded-For headers
+- **Manual IP testing** - Test rate limits for specific IPs
+- **Remaining time** - Check how long until next request allowed
 
 ## Configuration Options
 
@@ -196,7 +258,7 @@ $waitlist = new WaitlistComponent(null, null, 120);
 
 ### Database Location
 
-By default, databases are stored in `component/collectiq/data/`. To use custom paths:
+By default, databases are stored in `components/*/data/`. To use custom paths:
 
 ```php
 $waitlist = new WaitlistComponent(
@@ -441,7 +503,7 @@ new CustomWaitlistHandler('my-form');
 ## Deployment Notes
 
 1. Ensure PHP SQLite extension is installed
-2. Make `component/collectiq/data/` writable by web server
+2. Make `components/*/data/` writable by web server
 3. Database files are created automatically on first use
 4. Consider backing up the `data/` folder regularly
 

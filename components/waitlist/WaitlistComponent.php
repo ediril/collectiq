@@ -1,16 +1,19 @@
 <?php
 
+require_once __DIR__ . '/../ratelimit/RateLimitComponent.php';
+
 class WaitlistComponent {
     private $dbPath;
-    private $rateLimitDbPath;
-    private $window;
     private $assetBasePath;
+    private $rateLimit;
     
     public function __construct($folderName = 'collectiq') {
         $this->dbPath = __DIR__ . '/data/waitlist.db';
-        $this->rateLimitDbPath = __DIR__ . '/data/rate_limit.db';
-        $this->window = 60; // Default rate limit window
         $this->assetBasePath = $this->buildAssetPath($folderName);
+        
+        // Initialize rate limit component
+        $rateLimitDbPath = __DIR__ . '/../ratelimit/data/rate_limit.db';
+        $this->rateLimit = new RateLimitComponent($rateLimitDbPath, 60);
         
         // Ensure data directory exists
         if (!file_exists(__DIR__ . '/data')) {
@@ -19,17 +22,13 @@ class WaitlistComponent {
     }
     
     public function setRateLimitWindow($seconds) {
-        $this->window = $seconds;
+        $this->rateLimit->setWindow($seconds);
         return $this;
     }
     
     public function createDatabaseTables() {
         // Create rate limit table
-        $db = new PDO('sqlite:' . $this->rateLimitDbPath);
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $db->exec("CREATE TABLE IF NOT EXISTS rate_limit (
-            ip TEXT PRIMARY KEY,
-            window_start INTEGER)");
+        $this->rateLimit->createDatabaseTable();
 
         // Create waitlist table
         $db = new PDO('sqlite:' . $this->dbPath);
@@ -69,43 +68,7 @@ class WaitlistComponent {
     }
     
     public function checkRateLimit() {
-        $ip = $this->getClientIp();
-        $db = new PDO('sqlite:' . $this->rateLimitDbPath);
-        $db->exec("PRAGMA busy_timeout = 5000");
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $db->beginTransaction();
-        $stmt = $db->prepare("SELECT window_start FROM rate_limit WHERE ip = ?");
-        $stmt->execute([$ip]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $currentTime = time();
-
-        if ($row) {
-            // Check if the limit has been exceeded
-            if ($currentTime - $row['window_start'] <= $this->window) {
-                $db->rollBack();
-                return false;
-            }
-        }
-
-        // Update rate limit
-        $stmt = $db->prepare("
-            INSERT INTO rate_limit (ip, window_start)
-            VALUES (:ip, :window_start)
-            ON CONFLICT(ip) DO UPDATE SET
-                window_start = :new_window_start");
-        $stmt->execute([
-            ':ip'              => $ip,
-            ':window_start'    => $currentTime,
-            ':new_window_start'=> $currentTime,
-        ]);
-
-        // Clean up old entries
-        $db->exec("DELETE FROM rate_limit WHERE window_start < " . ($currentTime - $this->window));
-        $db->commit();
-        
-        return true;
+        return $this->rateLimit->checkRateLimit();
     }
     
     public function addToWaitlist($email) {
@@ -134,7 +97,7 @@ class WaitlistComponent {
     
     public function handleRequest() {
         // Check rate limit
-        if (!$this->checkRateLimit()) {
+        if (!$this->rateLimit->checkRateLimit()) {
             http_response_code(429);
             header("Content-Type: application/json");
             echo json_encode(['success' => false, 'message' => 'too many requests']);
@@ -206,7 +169,7 @@ class WaitlistComponent {
         if ($folderName === null) {
             $folderName = 'collectiq';
         }
-        return $folderName . '/component/assets/';
+        return $folderName . '/components/waitlist/assets/';
     }
 
     private function getAssetUrl($filename) {
