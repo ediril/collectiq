@@ -97,22 +97,27 @@ class WaitlistHandler {
     }
     
     showSuccessMessage(form) {
-        // Hide the form
-        form.style.display = 'none';
-        
-        // Create and show thank you message
-        const message = document.createElement('p');
+        // Hide submit button so layout remains but no action
+        const submitButton = form.querySelector('button[type="submit"]');
+        if (submitButton) submitButton.style.display = 'none';
+
+        // Find the input container to replace in-place
+        const inputContainer = form.querySelector('.collectiq-input-container');
+
+        // Create thank you message styled like the input container
+        const message = document.createElement('div');
         message.className = 'collectiq-input-container collectiq-thank-you';
         message.innerHTML = '<strong>Thank you for signing up!</strong>';
-        
-        let messageContainer = document.getElementById('message-container');
-        if (!messageContainer) {
-            messageContainer = document.createElement('div');
-            messageContainer.id = 'message-container';
-            form.parentNode.appendChild(messageContainer);
+
+        if (inputContainer && inputContainer.parentNode === form) {
+            form.replaceChild(message, inputContainer);
+        } else if (inputContainer) {
+            inputContainer.replaceWith(message);
+        } else {
+            // Fallback: insert at top of form
+            form.prepend(message);
         }
-        
-        messageContainer.appendChild(message);
+
         form.reset();
     }
 }
