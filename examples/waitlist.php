@@ -201,6 +201,7 @@
             padding: 2rem; 
             border: 1px solid #333; 
             border-radius: 8px;
+            text-align: center;
         }
         .info {
             background: #1a1a1a;
